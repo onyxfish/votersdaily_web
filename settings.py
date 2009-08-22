@@ -75,3 +75,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
 )
+
+COUCHDB_SERVER_URI = 'http://localhost:5984'
+COUCHDB_EVENTDB_NAME = 'vd_events'
