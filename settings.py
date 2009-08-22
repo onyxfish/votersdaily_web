@@ -64,6 +64,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'votersdaily_web.urls'
 
 TEMPLATE_DIRS = (
+    '/home/sk/src/votersdaily_web/citizen/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

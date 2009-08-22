@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>votersdaily_web.citizen.views.all</title>    
+</head>
+<body>
+    <table>
+        <tbody>
+            {% for document in documents %}
+            <tr>
+                <td>{{ document.datetime }}</td>
+                <td>{{ document.title }}</td>
+                <td>{{ document.description }}</td>
+                <td>{{ document.end_datetime }}</td>
+                <td>{{ document.branch }}</td>
+                <td>{{ document.entity }}</td>
+                <td>{{ document.source_url }}</td>
+                <td>{{ document.source_text }}</td>
+                <td>{{ document.access_datetime }}</td>
+                <td>{{ document.parser_name }}</td>
+                <td>{{ document.parser_version }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

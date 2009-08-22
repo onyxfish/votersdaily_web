@@ -3,6 +3,7 @@ import json
 import couchdb
 from couchdb.schema import *
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import render_to_response
 
 from votersdaily_web import settings
         
@@ -22,13 +23,15 @@ def all(request):
     #if request.accepts('application/json'):
         # GET
     if request.method == 'GET':
-        doc_id = '2008-10-06T00:00:00Z - Judicial - Supreme Court - Order List'
-        document = event_db[doc_id]
+        #doc_id = '2008-10-06T00:00:00Z - Judicial - Supreme Court - Order List'
+        #document = event_db[doc_id]
         
-        result = json.dumps(document)
+        documents = []
         
-        
-        return HttpResponse(result, mimetype='application/json')
+        for doc_id in event_db:
+            documents.append(event_db[doc_id])
+                
+        return render_to_response('all.html', { 'documents': documents }) 
     else:
         raise NotImplementedError()
     # HTML
