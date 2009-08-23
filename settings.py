@@ -75,7 +75,11 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'votersdaily_web.api',
+    'votersdaily_web.citizen',
 )
 
+# CouchDB settings
 COUCHDB_SERVER_URI = 'http://localhost:5984'
 COUCHDB_EVENTDB_NAME = 'vd_events'
+COUCHDB_LOGDB_NAME = 'vd_logs'

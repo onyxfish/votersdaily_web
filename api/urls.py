@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    url(r'^all', 'votersdaily_web.api.views.all', name='api_all'),
+    url(r'^events/all', 'votersdaily_web.api.views.events_all', name='api_events_all'),
 )

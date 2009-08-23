@@ -4,21 +4,22 @@
     <title>votersdaily_web.citizen.views.all</title>    
 </head>
 <body>
-    <table>
+    Total documents: {{ documents|length }}
+    <table border="1" margin="0" padding="0">
         <tbody>
             {% for document in documents %}
             <tr>
-                <td>{{ document.datetime }}</td>
-                <td>{{ document.title }}</td>
-                <td>{{ document.description }}</td>
-                <td>{{ document.end_datetime }}</td>
-                <td>{{ document.branch }}</td>
-                <td>{{ document.entity }}</td>
-                <td>{{ document.source_url }}</td>
-                <td>{{ document.source_text }}</td>
-                <td>{{ document.access_datetime }}</td>
-                <td>{{ document.parser_name }}</td>
-                <td>{{ document.parser_version }}</td>
+                <td>{{ document.value.datetime }}</td>
+                <td>{{ document.value.title }}</td>
+                <td>{{ document.value.description }}</td>
+                <td>{{ document.value.end_datetime }}</td>
+                <td>{{ document.value.branch }}</td>
+                <td>{{ document.value.entity }}</td>
+                <td>{{ document.value.source_url }}</td>
+                <td>{{ document.value.source_text }}</td>
+                <td>{{ document.value.access_datetime }}</td>
+                <td>{{ document.value.parser_name }}</td>
+                <td>{{ document.value.parser_version }}</td>
             </tr>
             {% endfor %}
         </tbody>

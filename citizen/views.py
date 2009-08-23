@@ -17,24 +17,16 @@ def get_event_db():
     return event_db
 
 def all(request):
+    """
+    Renders a list of all documents.
+    """
     event_db = get_event_db()
     
-    # JSON
-    #if request.accepts('application/json'):
-        # GET
+    # GET
     if request.method == 'GET':
-        #doc_id = '2008-10-06T00:00:00Z - Judicial - Supreme Court - Order List'
-        #document = event_db[doc_id]
-        
-        documents = []
-        
-        for doc_id in event_db:
-            documents.append(event_db[doc_id])
+        result = event_db.view('api/all')
                 
-        return render_to_response('all.html', { 'documents': documents }) 
+        return render_to_response('all.html', { 'documents': result }) 
     else:
         raise NotImplementedError()
-    # HTML
-    #else:
-    #    raise NotImplementedError()
     
