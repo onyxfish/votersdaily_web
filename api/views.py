@@ -1,37 +1,22 @@
 import json
+import urllib
+import urllib2
 
 import couchdb
 from couchdb.client import PermanentView, uri
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from votersdaily_web import settings
-        
-def get_event_db():
-    """
-    Setup CouchDB.  Encapsulated for clarity.
-    """
-    server = couchdb.Server(settings.COUCHDB_SERVER_URI)
-    event_db = server[settings.COUCHDB_EVENTDB_NAME]
-    
-    return event_db
 
-def get_view_results(database, name):
+def couchdb_urlopen(server, database, design, view, **options):
     """
-    Hacky method to get a dict of results from a couchdb-python View.
+    Build a CouchDB view url, open it, and return the raw results.
     
-    See couchdb.client.Database.view.
-    """          
-    if not name.startswith('_'):
-        design, name = name.split('/', 1)
-        name = '/'.join(['_design', design, '_view', name])
+    TODO: handle options
+    """
+    url = '%s/%s/_design/%s/_view/%s' % (server, database, design, view)
     
-    view = PermanentView(
-        uri(database.resource.uri, *name.split('/')), 
-        name,
-        wrapper=None,
-        http=database.resource.http)
-        
-    return view._exec({})
+    return urllib2.urlopen(url)
 
 def events_all(request):
     """
@@ -42,11 +27,70 @@ def events_all(request):
     #if request.accepts('application/json'):
         # GET
     if request.method == 'GET':
-        event_db = get_event_db()
+        #try:
+        json_result = couchdb_urlopen(
+            settings.COUCHDB_SERVER_URI, 
+            settings.COUCHDB_EVENTDB_NAME, 
+            'api', 
+            'all')
+        #except HttpError:
+            #TODO
             
-        result = get_view_results(event_db, 'api/all')
-        json_result = json.dumps(result)
-            
+        return HttpResponse(json_result, mimetype='application/json')
+    else:
+        raise NotImplementedError()
+    #else:
+    #    raise NotImplementedError()
+
+def events_branch(request, branch):
+    """
+    Return the events for a specific branch of government, using a pre-
+    generated view.
+    """
+    
+    # JSON
+    #if request.accepts('application/json'):
+        # GET
+    if request.method == 'GET':        
+        #try:
+        json_result = couchdb_urlopen(
+            settings.COUCHDB_SERVER_URI, 
+            settings.COUCHDB_EVENTDB_NAME, 
+            'api', 
+            urllib.quote(branch))
+        #except HttpError:
+            #TODO
+
+        return HttpResponse(json_result, mimetype='application/json')
+    else:
+        raise NotImplementedError()
+    #else:
+    #    raise NotImplementedError()
+
+def events_entity(request, entity):
+    """
+    Return the events for a specific government entity, using a pre-generated 
+    view.
+    """
+    
+    # JSON
+    #if request.accepts('application/json'):
+        # GET
+    if request.method == 'GET':
+        #try:        
+        json_result = couchdb_urlopen(
+            settings.COUCHDB_SERVER_URI, 
+            settings.COUCHDB_EVENTDB_NAME, 
+            'api',
+            urllib.quote(entity))
+        
+            #'/_design/api/_view/executive?startkey="2009-08"&descending=true'))
+        #except HttpError:
+            #TODO
+            #
+
+#
+
         return HttpResponse(json_result, mimetype='application/json')
     else:
         raise NotImplementedError()
