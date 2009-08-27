@@ -3,7 +3,6 @@ import urllib
 import urllib2
 
 import couchdb
-from couchdb.client import PermanentView, uri
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from votersdaily_web import settings
