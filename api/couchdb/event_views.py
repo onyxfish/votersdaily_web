@@ -9,6 +9,20 @@ of generated CouchDB ViewDefinitions.
 The 'syncviews' management command dynamically executes each method to compile
 a list of all Couchdb views.
 """
+    
+def make_views_all_documents(event_db):
+    """
+    Generate a view that includes all documents.
+    """
+    
+    all_view_map_function = \
+        '''
+        function(doc) {
+            emit(doc.datetime, doc)
+        }
+        '''
+        
+    return [ViewDefinition('api', 'all', all_view_map_function)]
 
 def get_branch_list(event_db):
     """
@@ -101,17 +115,3 @@ def make_views_entity_lists(event_db):
         ViewDefinition('api', name,
             entity_view_map_function % { 'entity_name': name })
         for name in entity_names]
-    
-def make_views_all_documents(event_db):
-    """
-    Generate a view that includes all documents.
-    """
-    
-    all_view_map_function = \
-        '''
-        function(doc) {
-            emit(doc.datetime, doc)
-        }
-        '''
-        
-    return [ViewDefinition('api', 'all', all_view_map_function)]
