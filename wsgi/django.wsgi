@@ -3,7 +3,9 @@ import sys
 
 sys.stdout = sys.stderr
 
-sys.path.append('/var/www/bouvard.mashupkeyword.com/')
+# Hack to get Django project on the path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'votersdaily_web.settings'
 
 import django.core.handlers.wsgi
