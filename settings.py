@@ -83,3 +83,6 @@ INSTALLED_APPS = (
 COUCHDB_SERVER_URI = 'http://localhost:5984'
 COUCHDB_EVENTDB_NAME = 'vd_events'
 COUCHDB_LOGDB_NAME = 'vd_logs'
+
+# Local settings for accessing the API
+API_ROOT = 'http://localhost'
