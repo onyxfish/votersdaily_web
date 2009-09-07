@@ -1,3 +1,6 @@
+import os
+import re
+
 import couchdb
 from couchdb.design import ViewDefinition
 from django.core.management.base import NoArgsCommand
@@ -52,6 +55,39 @@ class Command(NoArgsCommand):
         ViewDefinition.sync_many(log_db, view_definitions, remove_missing=True)
         
         print 'Finished'
+        
+    def sync_event_list_functions(self, event_db):
+        """
+        Synchronize list functions to the events database.
+        """
+        # Get path to dir containing list function definitions
+        api_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        couchdb_dir = os.path.join(api_dir, 'couchdb')
+        
+        files = os.listdir(couchdb_dir)
+        
+        # Build dictionary of list functions
+        list_funcs = {}
+        
+        for f in files:
+            if re.match('.*_event_list.js', f):
+                list_name = f[0:len(f)-14]
+                abs_path = os.path.join(couchdb_dir, f)
+                
+                with open(abs_path, 'r') as f:
+                    func = f.read()
+                    
+                list_funcs[list_name] = func
+        
+        print 'Syncing a total of %i list functions to CouchDB' % len(list_funcs)
+        
+        # Update the api design document 
+        api_design_doc = event_db['_design/api']
+        api_design_doc['lists'] = list_funcs
+        event_db['_design/api'] = api_design_doc
+        
+        print 'Finished'
+
     
     def handle_noargs(self, **options):
         """
@@ -67,5 +103,8 @@ class Command(NoArgsCommand):
         
         print 'Syncing log views...'
         self.sync_log_views(log_db)
+        
+        print 'Syncing event list functions...'
+        self.sync_event_list_functions(event_db)
         
         print 'Exiting'
