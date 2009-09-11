@@ -19,6 +19,9 @@ def couchdb_urlopen(server, database, design, view, format, **options):
     elif format == 'ical':
         url = '%s/%s/_design/%s/_list/ical/%s?%s' % (
             server, database, design, view, query)
+    elif format == 'html':
+        url = '%s/%s/_design/%s/_list/html/%s?%s' % (
+            server, database, design, view, query)
     else:
         raise Http404
     
@@ -56,6 +59,8 @@ def get_result_format_and_mimetype(request):
         mimetype = 'application/json'
     elif format == 'ical':
         mimetype = 'text/calendar'
+    elif format == 'html':
+        mimetype = 'text/html'
     else:
         raise Http404()
     
