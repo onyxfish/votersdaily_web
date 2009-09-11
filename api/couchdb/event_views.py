@@ -115,3 +115,50 @@ def make_views_entity_lists(event_db):
         ViewDefinition('api', name,
             entity_view_map_function % { 'entity_name': name })
         for name in entity_names]
+    
+    
+def get_scraper_list(event_db):
+    """
+    Return a list of unique scraper with documents in the database.
+    """
+    
+    scraper_list_map_function = \
+        '''
+        function(doc) {
+            emit(doc.parser_name, null);
+        }
+        '''
+        
+    scraper_list_reduce_function = \
+        '''
+        function(keys, values) {
+            return null;
+        }
+        '''
+    
+    return [
+        e.key for e in event_db.query(
+            scraper_list_map_function,
+            scraper_list_reduce_function,
+            group=True)]
+
+def make_views_scraper_lists(event_db):
+    """
+    Return a list of views, one for each scraper, using templated view
+    functions.
+    """
+    scraper_names = get_scraper_list(event_db)
+    
+    scraper_view_map_function = \
+        '''
+        function(doc) {
+            if (doc.parser_name == "%(scraper_name)s") {
+                emit(doc.datetime, doc)
+            }
+        }
+        '''
+        
+    return [
+        ViewDefinition('api', name,
+            scraper_view_map_function % { 'scraper_name': name })
+        for name in scraper_names]
