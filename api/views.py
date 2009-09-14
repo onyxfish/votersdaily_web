@@ -13,17 +13,8 @@ def couchdb_urlopen(server, database, design, view, format, **options):
     """
     query = urllib.urlencode(options)
     
-    if format == 'json':
-        url = '%s/%s/_design/%s/_view/%s?%s' % (
-            server, database, design, view, query)
-    elif format == 'ical':
-        url = '%s/%s/_design/%s/_list/ical/%s?%s' % (
-            server, database, design, view, query)
-    elif format == 'html':
-        url = '%s/%s/_design/%s/_list/html/%s?%s' % (
-            server, database, design, view, query)
-    else:
-        raise Http404
+    url = '%s/%s/_design/%s/_list/%s/%s?%s' % (
+        server, database, design, format, view, query)
     
     return urllib2.urlopen(url)
 
