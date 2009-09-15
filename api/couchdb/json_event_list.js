@@ -2,7 +2,9 @@
     This is to maintain consistency across backend changes. */
 function(head, req) {
 	// Documents will be collected in this object
-	var docs = {};
+	var responseObject = {};
+	responseObject.count = 0
+	responseObject.results = {}
 	
 	var row;
     while(row = getRow()) {
@@ -17,11 +19,12 @@ function(head, req) {
 	    }
     	
     	// Add document to object
-    	docs[id] = row.value;
+    	responseObject.results[id] = row.value;
+    	responseObject.count++;
     }
     
-    // Hacker's pretty-printing
-    var output = toJSON(docs);
+    // Hacker' nervs pretty-printing
+    var output = toJSON(responseObject);
     output = output.replace(/},/g, '},\n')
 	
     // JSONify all collected documents
