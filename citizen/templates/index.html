@@ -1,46 +1,47 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>Voter's Daily</title>    
+    <title>Voter's Daily</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/text.css" />
+    <link rel="stylesheet" href="css/960.css" />    
 </head>
 <body>
-    <h1>Voter's Daily</h1>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div class="container_12">
+        <h1>
+            Voter's Daily
+        </h1>
+        <div class="grid_4">
+            {% for event in executive_events %}
+                <div>{{ event.datetime }}</div>
+                <div>{{ event.title }}</div>
+                <hr />
+            {% endfor %}
+        </div>
+        <div class="grid_4">
+            {% for event in judicial_events %}
+                <div>{{ event.datetime }}</div>
+                <div>{{ event.title }}</div>
+                <hr />
+            {% endfor %}
+        </div>
+        <div class="grid_4">
+            {% for event in legislative_events %}
+                <div>{{ event.datetime }}</div>
+                <div>{{ event.title }}</div>
+                <hr />
+            {% endfor %}
+        </div>
+        <div class="clear"></div>
+    </div>    
+    
     Total executive events: {{ executive_events|length }}
     <table border="1" margin="0" padding="0">
         <tbody>
             {% for event in executive_events %}
-            <tr>
-                <td>{{ event.datetime }}</td>
-                <td>{{ event.title }}</td>
-                <td>{{ event.description }}</td>
-                <td>{{ event.end_datetime }}</td>
-                <td>{{ event.entity }}</td>
-                <td>{{ event.source_url }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    Total judicial events: {{ judicial_events|length }}
-    <table border="1" margin="0" padding="0">
-        <tbody>
-            {% for event in judicial_events %}
-            <tr>
-                <td>{{ event.datetime }}</td>
-                <td>{{ event.title }}</td>
-                <td>{{ event.description }}</td>
-                <td>{{ event.end_datetime }}</td>
-                <td>{{ event.entity }}</td>
-                <td>{{ event.source_url }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-    Total legislative events: {{ legislative_events|length }}
-    <table border="1" margin="0" padding="0">
-        <tbody>
-            {% for event in legislative_events %}
             <tr>
                 <td>{{ event.datetime }}</td>
                 <td>{{ event.title }}</td>
