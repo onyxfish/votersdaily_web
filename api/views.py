@@ -25,12 +25,13 @@ def get_query_options(request):
     options = {}
     
     try:
-        options['endkey'] = request.GET['start']
+        # String query parameters must be quoted for CouchDB
+        options['endkey'] = '"%s"' % request.GET['start']
     except KeyError:
         pass
     
     try:
-        options['startkey'] = request.GET['end']
+        options['startkey'] = '"%s"' % request.GET['end']
     except KeyError:
         pass
     
