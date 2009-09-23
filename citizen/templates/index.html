@@ -1,10 +1,13 @@
+{% load api_helpers %}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>Voter's Daily</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/text.css" />
-    <link rel="stylesheet" href="css/960.css" />    
+    <link rel="stylesheet" href="css/960.css" />
+    <link rel="stylesheet" href="css/corners.css" />
 </head>
 <body>
     <div>&nbsp;</div>
@@ -15,32 +18,44 @@
             Voter's Daily
         </h1>
         <div class="grid_4">
-            <div><strong>Total executive events: {{ executive_events|length }}</strong></div>
-            <hr />
-            {% for event in executive_events %}
-                <div>{{ event.datetime }}</div>
+            <div class="tl"></div><div class="tm"></div><div class="tr"></div>
+            <div class="content">
+                <div><strong>Executive Events: {{ executive_events|length }}</strong></div>
+                {% for event in executive_events %}
+                <br />
+                <div>{{ event.datetime|iso8601:"%B %d, %Y" }}</div>
                 <div>{{ event.title }}</div>
-                <hr />
-            {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="bl"></div><div class="bm"></div><div class="br"></div>
         </div>
+        
         <div class="grid_4">
-            <div><strong>Total judicial events: {{ judicial_events|length }}</strong></div>
-            <hr />
-            {% for event in judicial_events %}
-                <div>{{ event.datetime }}</div>
+            <div class="tl"></div><div class="tm"></div><div class="tr"></div>
+            <div class="content">
+                <div><strong>Judicial Events: {{ judicial_events|length }}</strong></div>
+                {% for event in judicial_events %}
+                <br />
+                <div>{{ event.datetime|iso8601:"%B %d, %Y" }}</div>
                 <div>{{ event.title }}</div>
-                <hr />
-            {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="bl"></div><div class="bm"></div><div class="br"></div>
         </div>
+        
         <div class="grid_4">
-            <div><strong>Total legislative events: {{ legislative_events|length }}</strong></div>
-            <hr />
-            {% for event in legislative_events %}
-                <div>{{ event.datetime }}</div>
+            <div class="tl"></div><div class="tm"></div><div class="tr"></div>
+            <div class="content">
+                <div><strong>Legislative Events: {{ legislative_events|length }}</strong></div>
+                {% for event in legislative_events %}
+                <br />
+                <div>{{ event.datetime|iso8601:"%B %d, %Y" }}</div>
                 <div>{{ event.title }}</div>
-                <hr />
-            {% endfor %}
+                {% endfor %}
+            </div>
+            <div class="bl"></div><div class="bm"></div><div class="br"></div>
         </div>
+        
         <div class="clear"></div>
     </div>    
     

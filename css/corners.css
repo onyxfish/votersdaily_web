@@ -1,0 +1,50 @@
+.tl {
+    width: 10px;
+    height: 10px;
+    background: url('/img/rounded.png') no-repeat top left;
+    float: left;
+    }
+
+.tm {
+    width: 280px;
+    height: 9px;
+    border-top: 1px solid #000;
+    float: left;
+    }
+
+.tr {
+    width: 10px;
+    height: 10px;
+    background: url('/img/rounded.png') no-repeat top right;
+    float: left;
+    }
+
+.content {
+    padding: 0 5px;
+    width: 288px;
+    clear: left;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    }
+
+.bl {
+    width: 10px;
+    height: 10px;
+    background: url('/img/rounded.png') no-repeat bottom left;
+    clear: both;
+    float: left;
+    }
+
+.bm {
+    width: 280px;
+    height: 9px;
+    border-bottom: 1px solid #000;
+    float: left;
+    }
+
+.br {
+    width: 10px;
+    height: 10px;
+    background: url('/img/rounded.png') no-repeat bottom right;
+    float: left;
+    }
