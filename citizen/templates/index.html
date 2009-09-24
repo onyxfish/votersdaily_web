@@ -24,7 +24,7 @@
                 {% for event in executive_events %}
                 <br />
                 <div>{{ event.datetime|iso8601:"%B %d, %Y" }}</div>
-                <div>{{ event.title }}</div>
+                <div>{{ event.title|safe }}</div>
                 {% endfor %}
             </div>
             <div class="bl"></div><div class="bm"></div><div class="br"></div>
@@ -37,7 +37,7 @@
                 {% for event in judicial_events %}
                 <br />
                 <div>{{ event.datetime|iso8601:"%B %d, %Y" }}</div>
-                <div>{{ event.title }}</div>
+                <div>{{ event.title|safe }}</div>
                 {% endfor %}
             </div>
             <div class="bl"></div><div class="bm"></div><div class="br"></div>
@@ -50,7 +50,7 @@
                 {% for event in legislative_events %}
                 <br />
                 <div>{{ event.datetime|iso8601:"%B %d, %Y" }}</div>
-                <div>{{ event.title }}</div>
+                <div>{{ event.title|safe }}</div>
                 {% endfor %}
             </div>
             <div class="bl"></div><div class="bm"></div><div class="br"></div>
