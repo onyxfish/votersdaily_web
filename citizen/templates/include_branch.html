@@ -1,0 +1,28 @@
+{% comment %}
+This template is imported into index.html using the render_branch tag.
+{% endcomment %}
+
+{% load api_helpers %}
+
+        <div class="grid_4">
+            <div class="tl"></div><div class="tm"></div><div class="tr"></div>
+            <div class="content">
+                <img class="header_seal" src="{{ branch.seal }}" />
+                {% for event in branch.events %}
+                <br />
+                <div class="event">
+                    {{ event.datetime|iso8601_pretty }}<br />
+                    {{ event.title|safe }}
+                    <div id="{{ event.id }}" class="event_details">
+                       <em>{{ event.description|safe }}</em><br />
+                       {% if event.end_datetime %}
+                       {{ event.end_datetime|iso8601_pretty }}<br />
+                       {% endif %}
+                       <!-- {{ event.entity }}<br /> -->
+                       <a href="{{ event.source_url|safe }}">Source</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="bl"></div><div class="bm"></div><div class="br"></div>
+        </div>

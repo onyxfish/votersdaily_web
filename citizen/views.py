@@ -119,20 +119,35 @@ def index(request):
     api_result = urllib2.urlopen(api_url)
     data = json.loads(api_result.read())
     
-    executive_events = []
-    legislative_events = []
-    judicial_events = []
+    branches = {}
+    branches['executive'] = {}
+    branches['executive']['events'] = []
+    branches['executive']['seal'] = 'img/executive.png'
+    branches['judicial'] = {}
+    branches['judicial']['events'] = []
+    branches['judicial']['seal'] = 'img/judicial.png'
+    branches['legislative'] = {}
+    branches['legislative']['events'] = []
+    branches['legislative']['seal'] = 'img/legislative.png'
     
     for key, value in data['results'].items():
         if value['branch'] == 'Executive':
-            executive_events.append(value)
-        elif value['branch'] == 'Legislative':
-            legislative_events.append(value)
+            value['id'] = key
+            branches['executive']['events'].append(value)
         elif value['branch'] == 'Judicial':
-            judicial_events.append(value)
+            value['id'] = key
+            branches['judicial']['events'].append(value)
+        elif value['branch'] == 'Legislative':
+            value['id'] = key
+            branches['legislative']['events'].append(value)
+            
+    branches['executive']['events'].sort()
+    branches['executive']['events'].reverse()
+    branches['judicial']['events'].sort()
+    branches['judicial']['events'].reverse()
+    branches['legislative']['events'].sort()
+    branches['legislative']['events'].reverse()
     
     return render_to_response('index.html', { 
-        'executive_events': executive_events,
-        'legislative_events': legislative_events,
-        'judicial_events': judicial_events })
+        'branches': branches })
     

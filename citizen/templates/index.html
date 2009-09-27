@@ -8,71 +8,26 @@
     <link rel="stylesheet" href="css/text.css" />
     <link rel="stylesheet" href="css/960.css" />
     <link rel="stylesheet" href="css/corners.css" />
+    <link rel="stylesheet" href="css/custom.css" />
 </head>
 <body>
     <div>&nbsp;</div>
     <div>&nbsp;</div>
     <div>&nbsp;</div>
     <div class="container_12">
-        <h1>
-            Voter's Daily
-        </h1>
-        <div class="grid_4">
-            <div class="tl"></div><div class="tm"></div><div class="tr"></div>
-            <div class="content">
-                <div><strong>Executive Events: {{ executive_events|length }}</strong></div>
-                {% for event in executive_events %}
-                <br />
-                <div>{{ event.datetime|iso8601:"%B %d, %Y" }}</div>
-                <div>{{ event.title|safe }}</div>
-                {% endfor %}
-            </div>
-            <div class="bl"></div><div class="bm"></div><div class="br"></div>
-        </div>
-        
-        <div class="grid_4">
-            <div class="tl"></div><div class="tm"></div><div class="tr"></div>
-            <div class="content">
-                <div><strong>Judicial Events: {{ judicial_events|length }}</strong></div>
-                {% for event in judicial_events %}
-                <br />
-                <div>{{ event.datetime|iso8601:"%B %d, %Y" }}</div>
-                <div>{{ event.title|safe }}</div>
-                {% endfor %}
-            </div>
-            <div class="bl"></div><div class="bm"></div><div class="br"></div>
-        </div>
-        
-        <div class="grid_4">
-            <div class="tl"></div><div class="tm"></div><div class="tr"></div>
-            <div class="content">
-                <div><strong>Legislative Events: {{ legislative_events|length }}</strong></div>
-                {% for event in legislative_events %}
-                <br />
-                <div>{{ event.datetime|iso8601:"%B %d, %Y" }}</div>
-                <div>{{ event.title|safe }}</div>
-                {% endfor %}
-            </div>
-            <div class="bl"></div><div class="bm"></div><div class="br"></div>
-        </div>
-        
-        <div class="clear"></div>
-    </div>    
+        <h1>Voter's Daily</h1>
+        {% include_branch branches.executive %}
+        {% include_branch branches.judicial %}
+        {% include_branch branches.legislative %}
     
-    Total executive events: {{ executive_events|length }}
-    <table border="1" margin="0" padding="0">
-        <tbody>
-            {% for event in executive_events %}
-            <tr>
-                <td>{{ event.datetime }}</td>
-                <td>{{ event.title }}</td>
-                <td>{{ event.description }}</td>
-                <td>{{ event.end_datetime }}</td>
-                <td>{{ event.entity }}</td>
-                <td>{{ event.source_url }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+	    $('div.event').click(function() {
+	        $(this).children('.event_details').toggle('slow');
+	        return false;
+	    });
+    });
+    </script>
 </body>
 </html>

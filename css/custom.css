@@ -1,0 +1,10 @@
+.header_seal {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.event_details {
+    display: none;
+    padding-left: 15px;
+}
