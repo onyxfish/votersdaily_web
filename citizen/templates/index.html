@@ -15,17 +15,22 @@
     <div>&nbsp;</div>
     <div>&nbsp;</div>
     <div class="container_12">
-        <h1>Voter's Daily</h1>
+        <h1 id="title">Voter's Daily</h1>
         {% include_branch branches.executive %}
         {% include_branch branches.judicial %}
         {% include_branch branches.legislative %}
+    </div>
+    <div>&nbsp;</div>
     
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-	    $('div.event').click(function() {
-	        $(this).children('.event_details').toggle('slow');
-	        return false;
+	    $('div.expander').toggle(function() {
+	        $(this).nextAll('.event_details').slideDown('slow');
+	        $(this).children('img').attr("src","img/open.png") 
+	    }, function() {
+	    	$(this).nextAll('.event_details').slideUp('show');
+            $(this).children('img').attr("src","img/closed.png") 
 	    });
     });
     </script>

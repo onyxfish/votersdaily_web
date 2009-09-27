@@ -1,5 +1,5 @@
 {% comment %}
-This template is imported into index.html using the render_branch tag.
+This template is imported into index.html using the "render_branch" tag.
 {% endcomment %}
 
 {% load api_helpers %}
@@ -11,15 +11,22 @@ This template is imported into index.html using the render_branch tag.
                 {% for event in branch.events %}
                 <br />
                 <div class="event">
-                    {{ event.datetime|iso8601_pretty }}<br />
-                    {{ event.title|safe }}
+                    <div class="expander"><img src="img/closed.png" /></div>
+                    <div class="summary">
+	                    <span class="event_date">{{ event.datetime|iso8601_pretty }}</strong><br />
+	                    <span class="event_title">{{ event.title|safe }}</span>
+	                </div>
+                    <div class="clear"></div>
                     <div id="{{ event.id }}" class="event_details">
-                       <em>{{ event.description|safe }}</em><br />
-                       {% if event.end_datetime %}
-                       {{ event.end_datetime|iso8601_pretty }}<br />
-                       {% endif %}
-                       <!-- {{ event.entity }}<br /> -->
-                       <a href="{{ event.source_url|safe }}">Source</a>
+                        <br />
+                        {% if event.description %}
+                        <span class="event_description">{{ event.description|safe }}</span><br />
+                        {% endif %}
+                        {% if event.end_datetime %}
+                        <span class="event_end_datetime">{{ event.end_datetime|iso8601_pretty }}</span><br />
+                        {% endif %}
+                        <!-- {{ event.entity }}<br /> -->
+                        <a href="{{ event.source_url|safe }}">Source</a>
                     </div>
                 </div>
                 {% endfor %}
