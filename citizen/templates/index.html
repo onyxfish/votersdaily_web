@@ -4,11 +4,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>Voter's Daily</title>
-    <link rel="stylesheet" href="css/reset.css" />
-    <link rel="stylesheet" href="css/text.css" />
-    <link rel="stylesheet" href="css/960.css" />
-    <link rel="stylesheet" href="css/corners.css" />
-    <link rel="stylesheet" href="css/custom.css" />
+    <link type="text/css" rel="stylesheet" href="css/reset.css" />
+    <link type="text/css" rel="stylesheet" href="css/text.css" />
+    <link type="text/css" rel="stylesheet" href="css/960.css" />
+    <link type="text/css" rel="stylesheet" href="css/corners.css" />
+    <link type="text/css" rel="stylesheet" href="css/jquery-ui-1.7.2.custom.css" />
+    <link type="text/css" rel="stylesheet" href="css/custom.css" />
 </head>
 <body>
     <div>&nbsp;</div>
@@ -16,15 +17,36 @@
     <div>&nbsp;</div>
     <div class="container_12">
         <h1 id="title">Voter's Daily</h1>
+        <div id="form_wrapper">
+        <form name="date_form" action="" method="get">
+        <input type="text" id="date_text" value="{{ lookup_date|date:"F j, Y" }}" />
+        <input type="hidden" id="date_iso8601" value=""{{ lookup_date|date:"Y-m-d" }}" />
+        <input type="button" id="go_button" onClick="openDate(this.form)" value="Go" />
+        </form>
+        </div><br />
+        
         {% include_branch branches.executive %}
         {% include_branch branches.judicial %}
         {% include_branch branches.legislative %}
     </div>
     <div>&nbsp;</div>
     
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.7.2.custom.min.js"></script>
+    <script type="text/javascript">    
+    function openDate(form) {
+        window.location = form.date_iso8601.value;
+    }
+    
     $(document).ready(function() {
+    	$("#date_text").datepicker({ 
+        	altField: '#date_iso8601',
+        	altFormat: $.datepicker.ISO_8601,
+        	changeMonth: true,
+        	changeYear: true,
+        	dateFormat: 'MM d, yy'
+        });
+        
 	    $('div.expander').toggle(function() {
 	        $(this).nextAll('.event_details').slideDown('slow');
 	        $(this).children('img').attr("src","img/open.png") 

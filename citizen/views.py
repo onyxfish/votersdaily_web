@@ -90,22 +90,26 @@ def entity(request, entity):
                 
     return render_to_response('entity.html', { 'documents': data['rows'] })
 
-def index(request):
+def index(request, lookup_date):
     """
     Renders the public-facing front page.
     """
     if request.method != 'GET':
         raise Http404
     
-    utc_now = datetime.datetime.utcnow()
-    utc_today = datetime.date(utc_now.year, utc_now.month, utc_now.day)
-    utc_tomorrow = utc_today + datetime.timedelta(days=1)
-    start = utc_today.isoformat()
-    end = utc_tomorrow.isoformat()
-    
-    #TEMP
-    start = '2009-09-01'
-    end = '2009-09-15'
+    if not lookup_date:
+        utc_now = datetime.datetime.utcnow()
+        utc_today = datetime.date(utc_now.year, utc_now.month, utc_now.day)
+        utc_tomorrow = utc_today + datetime.timedelta(days=1)
+        start = utc_today.strftime('%Y-%m-%d')
+        lookup_date = start # store for redisplay in template
+        end = utc_tomorrow.strftime('%Y-%m-%d')
+    else:
+        start = datetime.datetime.strptime(lookup_date, '%Y-%m-%d')
+        lookup_date = start
+        end = start + datetime.timedelta(days=1)
+        start = start.strftime('%Y-%m-%d')
+        end = end.strftime('%Y-%m-%d')
     
     options = {}
     options['start'] = start
@@ -141,13 +145,16 @@ def index(request):
             value['id'] = key
             branches['legislative']['events'].append(value)
             
-    branches['executive']['events'].sort()
+    compare_ids = lambda a, b: cmp(a['id'], b['id'])        
+            
+    branches['executive']['events'].sort(compare_ids)
     branches['executive']['events'].reverse()
-    branches['judicial']['events'].sort()
+    branches['judicial']['events'].sort(compare_ids)
     branches['judicial']['events'].reverse()
-    branches['legislative']['events'].sort()
+    branches['legislative']['events'].sort(compare_ids)
     branches['legislative']['events'].reverse()
     
     return render_to_response('index.html', { 
+        'lookup_date': lookup_date,
         'branches': branches })
     

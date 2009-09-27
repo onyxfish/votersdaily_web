@@ -9,5 +9,5 @@ urlpatterns = patterns('',
     url(r'^events/branch/(?P<branch>.*)', 'votersdaily_web.citizen.views.branch', name='events_branch'),
     url(r'^events/entity/(?P<entity>.*)', 'votersdaily_web.citizen.views.entity', name='events_entity'),
     
-    url(r'', 'votersdaily_web.citizen.views.index', name='index')
+    url(r'(?P<lookup_date>.*)', 'votersdaily_web.citizen.views.index', name='index')
 )
