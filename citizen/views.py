@@ -100,9 +100,9 @@ def index(request, lookup_date):
     if not lookup_date:
         utc_now = datetime.datetime.utcnow()
         utc_today = datetime.date(utc_now.year, utc_now.month, utc_now.day)
+        lookup_date = utc_today # store for redisplay in template
         utc_tomorrow = utc_today + datetime.timedelta(days=1)
         start = utc_today.strftime('%Y-%m-%d')
-        lookup_date = start # store for redisplay in template
         end = utc_tomorrow.strftime('%Y-%m-%d')
     else:
         start = datetime.datetime.strptime(lookup_date, '%Y-%m-%d')
