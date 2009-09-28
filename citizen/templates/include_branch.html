@@ -11,9 +11,9 @@ This template is imported into index.html using the "render_branch" tag.
                 {% for event in branch.events %}
                 <br />
                 <div class="event">
-                    <div class="expander"><img src="img/closed.png" /></div>
+                    <div class="expander" title="Click to toggle event details"><img src="img/closed.png" /></div>
                     <div class="summary">
-	                    <span class="event_date">{{ event.datetime|iso8601_pretty }}</strong><br />
+                        <span class="event_entity">{{ event.entity }}</span><span class="test">{{ event.datetime|iso8601_pretty_time }}</span><br />
 	                    <span class="event_title">{{ event.title|safe }}</span>
 	                </div>
                     <div class="clear"></div>

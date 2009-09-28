@@ -40,7 +40,13 @@ h1#title {
 	}
 	
 .event_date {
-	font-weight: normal;
+	}
+	
+.event_entity {
+	}
+	
+.test {
+	float: right;
 	}
 	
 .event_title {

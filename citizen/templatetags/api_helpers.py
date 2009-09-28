@@ -27,7 +27,20 @@ def iso8601_pretty(value):
         if dt.hour == 0 and dt.minute == 0 and dt.second == 0:
             return dt.strftime('%B %-d, %Y')
         else:
-            return dt.strftime('%B %-d, %Y at %-I:%M%p')
+            return dt.strftime('%B %-d, %Y at %-I:%M %p')
+    except:
+        return ''
+    
+@register.filter
+@stringfilter 
+def iso8601_pretty_time(value):
+    try:
+        dt = datetime.datetime.strptime(value, '%Y-%m-%dT%H:%M:%SZ')
+        
+        if dt.hour == 0 and dt.minute == 0 and dt.second == 0:
+            return ''
+        else:
+            return dt.strftime('%-I:%M %p')
     except:
         return ''
 

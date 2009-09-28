@@ -144,15 +144,20 @@ def index(request, lookup_date):
         elif value['branch'] == 'Legislative':
             value['id'] = key
             branches['legislative']['events'].append(value)
+    
+    def compare_events(a, b):
+        entity_test = cmp(a['entity'], b['entity'])
+        
+        if entity_test == 0:
+            return cmp(a['datetime'], b['datetime'])
+        else:
+            return entity_test
+           
+    #compare_ids = lambda a, b: cmp(a['id'], b['id'])        
             
-    compare_ids = lambda a, b: cmp(a['id'], b['id'])        
-            
-    branches['executive']['events'].sort(compare_ids)
-    branches['executive']['events'].reverse()
-    branches['judicial']['events'].sort(compare_ids)
-    branches['judicial']['events'].reverse()
-    branches['legislative']['events'].sort(compare_ids)
-    branches['legislative']['events'].reverse()
+    branches['executive']['events'].sort(compare_events)
+    branches['judicial']['events'].sort(compare_events)
+    branches['legislative']['events'].sort(compare_events)
     
     return render_to_response('index.html', { 
         'lookup_date': lookup_date,
