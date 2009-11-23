@@ -41,14 +41,14 @@ def deploy():
     
     upload_tar()
     install_requirements()
-    #install_site()
+    install_site()
     restart_webserver()
     
 # UTILITIES
 
 def upload_tar():
     """
-    Create an archive from the current Git master branch and upload it
+    Create an archive from the current Git master branch and upload it.
     """
     local('git archive --format=tar master | gzip > upload.tar.gz')
     put('upload.tar.gz', '%(path)s' % env)
@@ -66,12 +66,17 @@ def install_requirements():
         run('pip install -E . -r requirements.txt', pty=True)
     
 def install_site():
-    "Add the virtualhost file to apache"
-    require('release', provided_by=[deploy, setup])
-    
-    sudo('cd %(path)s; cp vhost.conf /etc/apache2/sites-available/%(project_name)s' % env)
-    sudo('cd /etc/apache2/sites-available/; a2ensite %(project_name)s' % env, pty=True)
+    """
+    Add the virtualhost configuration file to Apache."
+    """
+    with cd(env.path):
+        sudo('cp vhost.conf /etc/apache2/sites-available/%(project_name)s' % env)
+        
+    with cd('/etc/apache2/sites-available/'):
+        sudo('a2ensite %(project_name)s' % env, pty=True)
     
 def restart_webserver():
-    "Restart the web server"
+    """
+    Restart Apache.
+    """
     sudo('/etc/init.d/apache2 reload', pty=True)
