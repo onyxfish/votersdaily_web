@@ -28,6 +28,7 @@ def setup():
     sudo('pip install virtualenv')
     sudo('aptitude install -y apache2')
     sudo('aptitude install -y libapache2-mod-wsgi')
+    sudo('aptitude install -y couchdb')
     
     sudo('cd /etc/apache2/sites-available/; a2dissite default;', pty=True)
     sudo('mkdir -p %(path)s; chown %(user)s:%(user)s %(path)s;' % env, pty=True)
@@ -71,7 +72,8 @@ def install_site():
     Add the virtualhost configuration file to Apache."
     """
     with cd(env.path):
-        sudo('cp vhost.conf /etc/apache2/sites-available/%(project_name)s' % env)
+        run("sed 's/{PROJECT_PATH}/%(path)/' < vhost.conf > vhost.local.conf" % env)
+        sudo('cp vhost.local.conf /etc/apache2/sites-available/%(project_name)s' % env)
         
     with cd('/etc/apache2/sites-available/'):
         sudo('a2ensite %(project_name)s' % env, pty=True)
