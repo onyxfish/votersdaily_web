@@ -26,11 +26,12 @@ def setup():
     sudo('aptitude install -y python-setuptools')
     sudo('easy_install pip')
     sudo('pip install virtualenv')
-    #sudo('aptitude install -y apache2-threaded')
-    #sudo('aptitude install -y libapache2-mod-wsgi') # beware, outdated on hardy!
-    # we want to get rid of the default apache config
-    #sudo('cd /etc/apache2/sites-available/; a2dissite default;', pty=True)
+    sudo('aptitude install -y apache2')
+    sudo('aptitude install -y libapache2-mod-wsgi')
+    
+    sudo('cd /etc/apache2/sites-available/; a2dissite default;', pty=True)
     sudo('mkdir -p %(path)s; chown %(user)s:%(user)s %(path)s;' % env, pty=True)
+    
     with cd(env.path):
         run('virtualenv .;', pty=True)
         run('mkdir logs; chmod a+w logs;' % env, pty=True)
