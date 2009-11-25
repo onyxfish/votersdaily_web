@@ -16,7 +16,7 @@ def testenv():
     env.user = 'sk'
     env.path = '/home/%(user)s/%(project_name)s' % env
 
-# DEPLOYMENTS
+# COMMANDS
 
 def setup():
     """
@@ -26,15 +26,13 @@ def setup():
     require('hosts', provided_by=[testenv])
     require('path', provided_by=[testenv])
     
-    print 'Beginning setup...'
+    apt_install('python-setuptools')
+    easy_install('pip')
+    pip_install('virtualenv')
+    apt_install('apache2')
+    apt_install('libapache2-mod-wsgi')
     
-    sudo('aptitude install -y python-setuptools')
-    sudo('easy_install pip')
-    sudo('pip install virtualenv')
-    sudo('aptitude install -y apache2')
-    sudo('aptitude install -y libapache2-mod-wsgi')
-    
-    sudo('aptitude install -y couchdb')
+    apt_install('couchdb')
     
     with cd('/etc/couchdb'):
         sudo('cp local.ini local.ini.bak')
@@ -56,23 +54,35 @@ def deploy():
     require('hosts', provided_by=[testenv])
     require('path', provided_by=[testenv])
     
-    print 'Beginning deployment...'
-    
-    upload_tar()
+    upload_tar_from_git()
     install_requirements()
     install_site()
     restart_webserver()
     
-    print 'Deployment complete.'
-    
 # UTILITIES
 
-def upload_tar():
+def apt_install(package):
     """
-    Create an archive from the current Git master branch and upload it.
+    Install a single package on the remote server with Apt.
     """
-    print 'Uploading tar...'
-    
+    sudo('aptitude install -y %s' % package)
+
+def easy_install(package):
+    """
+    Install a single package on the remote server with easy_install.
+    """
+    sudo('easy_install %s' % package)
+
+def pip_install(package):
+    """
+    Install a single package on the remote server with pip.
+    """
+    sudo('pip install %s' % package)
+
+def upload_tar_from_git():
+    """
+    Create a tar archive from the current git master branch and upload it.
+    """    
     local('git archive --format=tar master | gzip > upload.tar.gz')
     put('upload.tar.gz', '%(path)s' % env)
     
@@ -84,18 +94,14 @@ def upload_tar():
 def install_requirements():
     """
     Install the required packages from the requirements file using pip.
-    """
-    print 'Installing requirements...'
-    
+    """    
     with cd(env.path):
         run('pip install -E . -r requirements.txt', pty=True)
     
 def install_site():
     """
     Add the virtualhost configuration file to Apache."
-    """
-    print 'Installing Apache site...'
-    
+    """    
     with cd(env.path):
         run("sed 's/{PROJECT_PATH}/%s/' <vhost.conf > vhost.local.conf" % env.path.replace('/', '\/'))
         sudo('cp vhost.local.conf /etc/apache2/sites-available/%(project_name)s' % env)
@@ -106,7 +112,5 @@ def install_site():
 def restart_webserver():
     """
     Restart Apache.
-    """
-    print 'Restarting Apache...'
-    
+    """    
     sudo('/etc/init.d/apache2 reload', pty=True)
